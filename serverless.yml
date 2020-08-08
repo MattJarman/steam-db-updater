@@ -1,0 +1,23 @@
+service:
+  name: steam-updater
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  profile: default
+  runtime: nodejs12.x
+  memorySize: 1024
+  logRetentionInDays: 7
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+
+functions:
+  steam-updater:
+    handler: src/app/modules/common/Handler.handler
+    events:
+      - schedule: rate(2 hours)
