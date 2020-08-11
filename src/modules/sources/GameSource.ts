@@ -1,4 +1,4 @@
-import Mongoose, { Model } from 'mongoose';
+import Mongoose, {DocumentDefinition, Model} from 'mongoose';
 import DB from '../common/DB';
 import IGame from '../interfaces/mongoose/GameInterface'
 import Game from '../models/Game';
@@ -11,7 +11,7 @@ class GameSource extends DB {
         this.game = Game;
     }
 
-    public async index(): Promise<Array<object>> {
+    public async index(): Promise<DocumentDefinition<any>> {
         return new Promise((resolve, reject) => {
             this.game.find({ type: 'game' })
                 .distinct('_id')
