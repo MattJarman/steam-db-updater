@@ -1,31 +1,47 @@
 {
-  "name": "hello_world",
+  "name": "steam-db-updater",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
+  "description": "Lambda function to update a MongoDB database with games from Steam.",
   "main": "steam-updater/app.js",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
+  "repository": "https://github.com/MattJarman/steam-db-updater",
+  "author": "Matthew Jarman",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.1",
     "config": "^3.3.1",
     "mongoose": "^5.9.26",
-    "path": "^0.12.7",
-    "ts-jest": "^26.1.4",
-    "typescript": "^3.9.7"
+    "path": "^0.12.7"
   },
   "scripts": {
-    "test": "mocha steam-updater/tests/unit"
+    "test": "jest",
+    "lint": "eslint .",
+    "lint-and-fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/config": "0.0.36",
     "@types/jest": "^26.0.9",
     "@types/mongoose": "^5.7.34",
     "@types/node": "^14.0.25",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
     "chai": "^4.2.0",
-    "jest": "^26.2.2",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-prettier-standard": "^3.0.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.4.0",
     "mocha": "^6.1.4",
+    "prettier": "^2.0.5",
+    "prettier-config-standard": "^1.0.1",
     "serverless-dotenv-plugin": "^3.0.0",
-    "serverless-plugin-typescript": "^1.1.9"
+    "serverless-plugin-typescript": "^1.1.9",
+    "ts-jest": "^26.2.0",
+    "typescript": "^3.9.7"
   }
 }
