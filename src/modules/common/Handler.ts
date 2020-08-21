@@ -1,48 +1,59 @@
-import GameSource from '../../sources/GameSource'
-import ISteamAppListResponse from '../../interfaces/steam/api/SteamAppListResponseInterface'
+import AppSource from '../../sources/AppSource'
 import SteamAPIClient from './SteamAPIClient'
-import ISteamAppListItem from '../../interfaces/steam/api/SteamAppListItemInterface'
-import ISteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponseInterface'
 import SteamStoreClient from './SteamStoreClient'
-import ISteamApp from '../../interfaces/steam/store/SteamAppInterface'
+import Config from 'config'
+import AppMapper from '../mappers/AppMapper'
 
 export const handler = async (): Promise<boolean> => {
-  const source: GameSource = new GameSource()
-  const apiClient: SteamAPIClient = new SteamAPIClient()
-  const storeClient: SteamStoreClient = new SteamStoreClient()
+  const source = new AppSource()
+  const apiClient = new SteamAPIClient()
+  const storeClient = new SteamStoreClient()
 
   // Get app ids from our database
+  console.log('Retrieving all apps in DB...')
   const games = await source.index()
+  console.log(`Done. ${games.length} retrieved.`)
 
   // Get all app ids from steam
-  const response: ISteamAppListResponse = await apiClient.getAppList()
-  let apps: Array<ISteamAppListItem> = response.applist.apps
+  console.log('Retrieving all apps from Steam...')
+  const appListResponse = await apiClient.getAppList()
+  let apps = appListResponse.applist.apps
+  console.log(`Done. ${apps.length} retrieved.`)
+
+  // TODO: Get erroneous apps from DB
 
   // Filter apps
   apps = apps.filter(app => {
     return !games.includes(app.appid)
   })
 
+  const rate: number = Config.get('updater.rate')
   for (const app of apps) {
-    const appid: number = app.appid
-    const detailsResponse: ISteamAppDetailsResponse = await storeClient.getAppDetails(
-      appid
-    )
+    const appId: number = app.appid
+    const detailsResponse = await storeClient.getAppDetails(appId)
 
-    const success: boolean = detailsResponse[appid].success
+    const success: boolean = detailsResponse[appId].success
     if (!success) {
       // Log error
-      // Add failed app to DB
+      // If not a network error, add failed app to DB
       continue
     }
 
-    const details: ISteamApp = detailsResponse[appid].data
+    const steamApp = detailsResponse[appId].data
+    const mappedApp = new AppMapper(steamApp).get()
+    await source.insert(mappedApp)
 
-    console.log(details)
+    await sleep(rate)
 
     break
   }
 
   source.disconnect()
   return true
+}
+
+function sleep(ms: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
 }

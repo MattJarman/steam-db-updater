@@ -1,15 +1,15 @@
 import HttpClient from './HttpClient'
 import Config from 'config'
-import ISteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponseInterface'
+import SteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponseInterface'
 
 class SteamStoreClient extends HttpClient {
   public constructor() {
     super(Config.get('steam.store.baseUrl'))
   }
 
-  public async getAppDetails(id: number): Promise<ISteamAppDetailsResponse> {
+  public async getAppDetails(id: number): Promise<SteamAppDetailsResponse> {
     const route: string = Config.get('steam.store.routes.appDetails')
-    return this.instance.get<ISteamAppDetailsResponse>(`${route}${id}`)
+    return this.instance.get<SteamAppDetailsResponse>(`${route}${id}`)
   }
 }
 

@@ -1,6 +1,11 @@
 module.exports = {
-  roots: ['<rootDir>/src'],
-  modulePaths: ['<rootDir>/src'],
+  moduleNameMapper: {
+    '^@App/(.*)$': '<rootDir>/src/$1'
+  },
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+  testMatch: ['**/*.test.ts'],
   testEnvironment: 'node',
-  preset: 'ts-jest'
+  setupFiles: ['dotenv/config']
 }

@@ -11,9 +11,7 @@ class DB {
       'mongoose.options'
     )
 
-    Mongoose.connect(this.getUriString(), mongooseOptions).then(() =>
-      console.log('Connected to the database!')
-    )
+    Mongoose.connect(DB.getUriString(), mongooseOptions)
 
     return Mongoose.connection
   }
@@ -22,7 +20,7 @@ class DB {
     Mongoose.connection.close()
   }
 
-  private getUriString(): string {
+  private static getUriString(): string {
     const username: string | undefined = process.env.MONGODB_USERNAME
     const password: string | undefined = process.env.MONGODB_PASSWORD
     const host: string = Config.get('mongodb.host')

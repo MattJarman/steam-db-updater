@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose'
 
-const FailedAppSchema = new Schema({
+const ErroneousAppSchema = new Schema({
   appid: Number,
   errorCode: Number,
   errorResponse: String
 })
 
-export default FailedAppSchema
+export default ErroneousAppSchema

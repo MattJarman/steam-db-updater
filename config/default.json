@@ -1,4 +1,7 @@
 {
+  "updater": {
+    "rate": 600
+  },
   "mongoose": {
     "options": {
       "useNewUrlParser": true,

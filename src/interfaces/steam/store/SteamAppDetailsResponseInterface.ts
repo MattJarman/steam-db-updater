@@ -1,8 +1,8 @@
-import ISteamApp from './SteamAppInterface'
+import SteamApp from './SteamAppInterface'
 
-export default interface ISteamAppDetailsResponse {
+export default interface SteamAppDetailsResponse {
   [key: string]: {
     success: boolean
-    data: ISteamApp
+    data: SteamApp
   }
 }
