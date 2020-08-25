@@ -11,7 +11,7 @@
     "store": {
       "baseUrl": "http://store.steampowered.com/api/",
       "routes": {
-        "appDetails": "appdetails?appids="
+        "appDetails": "appdetails"
       }
     },
     "api": {

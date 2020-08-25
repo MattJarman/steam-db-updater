@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-serverless invoke local -f steam-updater
+serverless invoke local -f steam-db-updater

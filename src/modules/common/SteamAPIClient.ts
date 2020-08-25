@@ -1,15 +1,15 @@
 import HttpClient from './HttpClient'
 import Config from 'config'
-import ISteamAppListResponse from '../../interfaces/steam/api/SteamAppListResponseInterface'
+import SteamAppListResponse from '../../interfaces/steam/api/SteamAppListResponseInterface'
 
 class SteamAPIClient extends HttpClient {
   public constructor() {
     super(Config.get('steam.api.baseUrl'))
   }
 
-  public async getAppList(): Promise<ISteamAppListResponse> {
+  public async getAppList(): Promise<SteamAppListResponse> {
     const route: string = Config.get('steam.api.routes.appList')
-    return this.instance.get<ISteamAppListResponse>(route)
+    return this.instance.get<SteamAppListResponse>(route)
   }
 }
 

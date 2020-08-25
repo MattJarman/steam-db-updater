@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosResponse } from 'axios'
+import Axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 
 declare module 'axios' {
   // eslint-disable-next-line
@@ -25,7 +25,7 @@ abstract class HttpClient {
 
   private _handleResponse = ({ data }: AxiosResponse) => data
 
-  protected _handleError = (error: unknown): Promise<unknown> =>
+  protected _handleError = (error: AxiosError): Promise<AxiosError> =>
     Promise.reject(error)
 }
 

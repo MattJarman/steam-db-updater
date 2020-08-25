@@ -3,7 +3,7 @@ import DB from '../modules/common/DB'
 import AppModel from '../models/AppModel'
 import App from '../interfaces/mongoose/AppInterface'
 
-class AppSource extends DB {
+export default class AppSource extends DB {
   app: Model<App>
 
   public constructor() {
@@ -11,7 +11,6 @@ class AppSource extends DB {
     this.app = AppModel
   }
 
-  // eslint-disable-next-line
   public async index(): Promise<DocumentDefinition<any>> {
     return new Promise((resolve, reject) => {
       this.app
@@ -42,5 +41,3 @@ class AppSource extends DB {
     })
   }
 }
-
-export default AppSource

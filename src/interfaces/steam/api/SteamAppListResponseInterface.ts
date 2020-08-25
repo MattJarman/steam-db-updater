@@ -1,5 +1,5 @@
-import ISteamAppList from './SteamAppListInterface'
+import SteamAppList from './SteamAppListInterface'
 
-export default interface ISteamAppListResponse {
-  applist: ISteamAppList
+export default interface SteamAppListResponse {
+  applist: SteamAppList
 }
