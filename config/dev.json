@@ -1,24 +1,9 @@
 {
   "mongodb": {
-    "host": "steam-apps-hlewt.mongodb.net",
-    "database": "steam",
+    "prefix": "mongodb",
+    "host": "127.0.0.1:27017",
     "options": {
-      "retryWrites": true,
-      "w": "majority"
-    }
-  },
-  "steam": {
-    "store": {
-      "baseUrl": "http://store.steampowered.com/api/",
-      "routes": {
-        "appDetails": "appdetails"
-      }
-    },
-    "api": {
-      "baseUrl": "https://api.steampowered.com/",
-      "routes": {
-        "appList": "ISteamApps/GetAppList/v2"
-      }
+      "authSource": "admin"
     }
   }
 }

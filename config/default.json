@@ -4,7 +4,12 @@
     "rateIncrease": 60000
   },
   "mongodb": {
-    "prefix": "mongodb+srv"
+    "prefix": "mongodb+srv",
+    "database": "steam",
+    "options": {
+      "retryWrites": true,
+      "w": "majority"
+    }
   },
   "mongoose": {
     "options": {
@@ -19,6 +24,20 @@
       "LOG": 2,
       "INFO": 3,
       "DEBUG": 4
+    }
+  },
+  "steam": {
+    "store": {
+      "baseUrl": "http://store.steampowered.com/api/",
+      "routes": {
+        "appDetails": "appdetails"
+      }
+    },
+    "api": {
+      "baseUrl": "https://api.steampowered.com/",
+      "routes": {
+        "appList": "ISteamApps/GetAppList/v2"
+      }
     }
   }
 }

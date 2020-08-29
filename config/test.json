@@ -2,25 +2,8 @@
   "mongodb": {
     "prefix": "mongodb",
     "host": "127.0.0.1:27017",
-    "database": "steam",
     "options": {
-      "retryWrites": true,
-      "w": "majority",
       "authSource": "admin"
-    }
-  },
-  "steam": {
-    "store": {
-      "baseUrl": "http://store.steampowered.com/api/",
-      "routes": {
-        "appDetails": "appdetails"
-      }
-    },
-    "api": {
-      "baseUrl": "https://api.steampowered.com/",
-      "routes": {
-        "appList": "ISteamApps/GetAppList/v2"
-      }
     }
   }
 }
