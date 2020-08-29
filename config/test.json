@@ -1,10 +1,12 @@
 {
   "mongodb": {
-    "host": "steam-apps-hlewt.mongodb.net",
+    "prefix": "mongodb",
+    "host": "127.0.0.1:27017",
     "database": "steam",
     "options": {
       "retryWrites": true,
-      "w": "majority"
+      "w": "majority",
+      "authSource": "admin"
     }
   },
   "steam": {

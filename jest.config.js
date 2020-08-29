@@ -1,6 +1,7 @@
 module.exports = {
   moduleNameMapper: {
-    '^@App/(.*)$': '<rootDir>/src/$1'
+    '^@App/(.*)$': '<rootDir>/src/$1',
+    '^@Test/(.*)$': '<rootDir>/test/$1'
   },
   transform: {
     '^.+\\.tsx?$': 'ts-jest'

@@ -21,13 +21,14 @@ class DB {
   }
 
   private static getUriString(): string {
+    const prefix: string = Config.get('mongodb.prefix')
     const username: string | undefined = process.env.MONGODB_USERNAME
     const password: string | undefined = process.env.MONGODB_PASSWORD
     const host: string = Config.get('mongodb.host')
     const database: string = Config.get('mongodb.database')
     const options: string = DB.getOptionsString(Config.get('mongodb.options'))
 
-    return `mongodb+srv://${username}:${password}@${host}/${database}?${options}`
+    return `${prefix}://${username}:${password}@${host}/${database}?${options}`
   }
 
   private static getOptionsString(options: Record<string, unknown>): string {

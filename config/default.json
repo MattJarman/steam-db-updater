@@ -3,6 +3,9 @@
     "rate": 800,
     "rateIncrease": 60000
   },
+  "mongodb": {
+    "prefix": "mongodb+srv"
+  },
   "mongoose": {
     "options": {
       "useNewUrlParser": true,
