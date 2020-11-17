@@ -4,8 +4,8 @@ const message = 'Test message.'
 const fullMessage = 'Full message.'
 const tags = 'tags'
 
-describe('Test Logger', () => {
-  it('Logs errors', () => {
+describe('Logger', () => {
+  it('logs errors', () => {
     process.env.LOG_LEVEL = 'ERROR'
     const log = new Logger()
     console.error = jest.fn()
@@ -18,7 +18,7 @@ describe('Test Logger', () => {
     expect(console.error).toBeCalledTimes(2)
   })
 
-  it('Logs warnings', () => {
+  it('logs warnings', () => {
     process.env.LOG_LEVEL = 'WARNING'
     const log = new Logger()
     console.warn = jest.fn()
@@ -31,7 +31,7 @@ describe('Test Logger', () => {
     expect(console.warn).toBeCalledTimes(2)
   })
 
-  it('Logs logs', () => {
+  it('logs logs', () => {
     process.env.LOG_LEVEL = 'LOG'
     const log = new Logger()
     console.log = jest.fn()
@@ -44,7 +44,7 @@ describe('Test Logger', () => {
     expect(console.log).toBeCalledTimes(2)
   })
 
-  it('Logs info', () => {
+  it('logs info', () => {
     process.env.LOG_LEVEL = 'INFO'
     const log = new Logger()
     console.info = jest.fn()
@@ -57,7 +57,7 @@ describe('Test Logger', () => {
     expect(console.info).toBeCalledTimes(2)
   })
 
-  it('Logs debug', () => {
+  it('logs debug', () => {
     process.env.LOG_LEVEL = 'DEBUG'
     const log = new Logger()
     console.debug = jest.fn()

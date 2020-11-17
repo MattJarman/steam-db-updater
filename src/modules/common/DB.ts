@@ -1,9 +1,12 @@
 import Mongoose, { Connection } from 'mongoose'
 import Config from 'config'
+import { databaseConfig } from '../config/database'
 
 class DB {
+  private readonly connection: Connection
+
   public constructor() {
-    this.connect()
+    this.connection = this.connect()
   }
 
   public connect(): Connection {
@@ -22,8 +25,8 @@ class DB {
 
   private static getUriString(): string {
     const prefix: string = Config.get('mongodb.prefix')
-    const username: string | undefined = process.env.MONGODB_USERNAME
-    const password: string | undefined = process.env.MONGODB_PASSWORD
+    const username: string | undefined = databaseConfig.username
+    const password: string | undefined = databaseConfig.password
     const host: string = Config.get('mongodb.host')
     const database: string = Config.get('mongodb.database')
     const options: string = DB.getOptionsString(Config.get('mongodb.options'))

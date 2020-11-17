@@ -46,7 +46,13 @@ export default class Updater {
           continue
         }
 
-        await this.handleSuccess(response[app].data)
+        const data = response[app].data
+        if (app !== data.steam_appid) {
+          await this.handleAppIdMismatch(app, data.steam_appid)
+          continue
+        }
+
+        await this.handleSuccess(data)
 
         // Reset rate for next request if we're using the increase rate
         if (this.rate !== this.defaultRate) {
@@ -86,11 +92,10 @@ export default class Updater {
 
     const mappedApp = new AppMapper(app).get()
 
-    await this.appSource.insert(mappedApp).then(() => {
-      this.log.info(
-        `${mappedApp.name} (${app.steam_appid}) has been inserted into the database.`
-      )
-    })
+    await this.appSource.insert(mappedApp)
+    this.log.info(
+      `${mappedApp.name} (${app.steam_appid}) has been inserted into the database.`
+    )
   }
 
   private async handleNoContent(
@@ -101,6 +106,18 @@ export default class Updater {
 
     const reason = `${NO_CONTENT} - No Content`
     await this.handleIgnore(appId, reason)
+  }
+
+  private async handleAppIdMismatch(
+    expectedAppId: number,
+    actualAppId: number
+  ): Promise<void> {
+    this.log.error(
+      `App ID mismatch. (Expected: ${expectedAppId}, Actual: ${actualAppId})`
+    )
+
+    const reason = 'App ID mismatch'
+    await this.handleIgnore(expectedAppId, reason)
   }
 
   private async handleIgnore(appId: number, reason: string): Promise<void> {

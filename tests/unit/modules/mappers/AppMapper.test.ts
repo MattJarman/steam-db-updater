@@ -4,8 +4,8 @@ import SteamAppDetailsResponse from '@App/interfaces/steam/store/SteamAppDetails
 
 const APP_ID = 400
 
-describe('Test AppMapper', () => {
-  it('Maps app into correct format', async () => {
+describe('AppMapper', () => {
+  it('maps app into correct format', async () => {
     const app: SteamAppDetailsResponse = JSON.parse(
       fs.readFileSync(`tests/test-data/${APP_ID}.json`, 'utf-8')
     )
