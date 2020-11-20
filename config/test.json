@@ -5,5 +5,9 @@
     "options": {
       "authSource": "admin"
     }
+  },
+  "updater": {
+    "rate": 0,
+    "rateIncrease": 0
   }
 }
