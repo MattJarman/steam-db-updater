@@ -7,7 +7,7 @@ import Config from 'config'
 import IgnoredAppMapper from '../mappers/IgnoredAppMapper'
 import { NO_CONTENT, TOO_MANY_REQUESTS } from './HttpResponses'
 import AppMapper from '../mappers/AppMapper'
-import SteamApp from '../../interfaces/steam/store/SteamAppInterface'
+import SteamApp from '../../interfaces/steam/store/SteamApp'
 import { AxiosError } from 'axios'
 
 export default class Updater {

@@ -1,5 +1,5 @@
-import IgnoredApp from '../../interfaces/mongoose/IgnoredAppInterface'
-import SteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponseInterface'
+import IgnoredApp from '../../interfaces/mongoose/IgnoredApp'
+import SteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponse'
 
 export default class IgnoredAppMapper {
   private readonly appId: number

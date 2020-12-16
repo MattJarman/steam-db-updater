@@ -1,7 +1,7 @@
 import { DocumentDefinition, Model } from 'mongoose'
 import DB from '../modules/common/DB'
 import IgnoredAppModel from '../models/IgnoredAppModel'
-import IgnoredApp from '../interfaces/mongoose/IgnoredAppInterface'
+import IgnoredApp from '../interfaces/mongoose/IgnoredApp'
 
 export default class IgnoredAppSource extends DB {
   ignoredApp: Model<IgnoredApp>

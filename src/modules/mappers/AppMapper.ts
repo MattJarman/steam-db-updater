@@ -1,5 +1,5 @@
-import SteamApp from '../../interfaces/steam/store/SteamAppInterface'
-import App from '../../interfaces/mongoose/AppInterface'
+import SteamApp from '../../interfaces/steam/store/SteamApp'
+import App from '../../interfaces/mongoose/App'
 
 export default class AppMapper {
   private readonly steamApp: SteamApp

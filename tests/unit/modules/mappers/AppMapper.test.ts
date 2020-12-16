@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import AppMapper from '@App/modules/mappers/AppMapper'
-import SteamAppDetailsResponse from '@App/interfaces/steam/store/SteamAppDetailsResponseInterface'
+import SteamAppDetailsResponse from '@App/interfaces/steam/store/SteamAppDetailsResponse'
 
 const APP_ID = 400
 

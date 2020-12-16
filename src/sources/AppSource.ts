@@ -1,7 +1,7 @@
 import { DocumentDefinition, Model } from 'mongoose'
 import DB from '../modules/common/DB'
 import AppModel from '../models/AppModel'
-import App from '../interfaces/mongoose/AppInterface'
+import App from '../interfaces/mongoose/App'
 
 export default class AppSource extends DB {
   app: Model<App>
