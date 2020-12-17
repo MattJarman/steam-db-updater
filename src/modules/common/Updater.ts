@@ -12,6 +12,7 @@ import { AxiosError } from 'axios'
 import Helper from './Helper'
 
 export default class Updater {
+  private readonly GAME_TYPE = 'game'
   private readonly appSource: AppSource
   private readonly ignoredAppSource: IgnoredAppSource
   private readonly apiClient: SteamAPIClient
@@ -53,6 +54,11 @@ export default class Updater {
           continue
         }
 
+        if (data.type !== this.GAME_TYPE) {
+          await this.handleNonGame(data)
+          continue
+        }
+
         await this.handleSuccess(data)
 
         // Reset rate for next request if we're using the increase rate
@@ -81,16 +87,6 @@ export default class Updater {
   }
 
   private async handleSuccess(app: SteamApp): Promise<void> {
-    // We don't care about anything that isn't a game, so add it to the list of ignored apps
-    if (app.type !== 'game') {
-      this.log.info(
-        `${app.name} (${app.steam_appid}) is not a game - ignoring.`
-      )
-
-      await this.handleIgnore(app.steam_appid, `type: '${app.type}'`)
-      return
-    }
-
     const mappedApp = new AppMapper(app).get()
 
     await this.appSource.insert(mappedApp)
@@ -121,8 +117,16 @@ export default class Updater {
     await this.handleIgnore(expectedAppId, reason)
   }
 
+  private async handleNonGame(app: SteamApp): Promise<void> {
+    this.log.info(`${app.name} (${app.steam_appid}) is not a game - ignoring.`)
+    const reason = `type: '${app.type}'`
+
+    await this.handleIgnore(app.steam_appid, reason)
+  }
+
   private async handleIgnore(appId: number, reason: string): Promise<void> {
     const ignoredApp = new IgnoredAppMapper(appId, reason).get()
+    console.log(ignoredApp)
     await this.ignoredAppSource.insert(ignoredApp)
   }
 

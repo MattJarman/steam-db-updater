@@ -89,12 +89,12 @@ jest.mock('@App/modules/mappers/IgnoredAppMapper', () => {
 })
 
 /**
- * TODO: Write tests for the following scenarios:
+ * Scenarios:
  *       - it inserts an app into the db if there were no errors ✔️
  *       - it ignores an app if Steam app details has no content ✔
+ *       - it ignores an app if it isn't a game ✔
  *       - ignores an app if the id found in the app details does not match the requested id ✔
  *       - it increases the time between requests if we receive a TOO_MANY_REQUESTS error code ✔
- *       - it resets the rate after the next successful response
  */
 
 describe('Updater', () => {
@@ -145,6 +145,23 @@ describe('Updater', () => {
 
       mismatchedApp[APP_ID].data.steam_appid = 123
       appDetailsMock.mockReturnValue(mismatchedApp)
+      ignoredAppMapperGetMock.mockReturnValue(ignoredApp)
+      const updater = new Updater()
+
+      await updater.run()
+      expect(appDetailsMock).toHaveBeenCalledWith(APP_ID)
+      expect(ignoredAppInsertMock).toHaveBeenCalledWith(ignoredApp)
+    })
+
+    it('ignores an app if it is not a game', async () => {
+      const nonGameApp = JSON.parse(JSON.stringify(app))
+      const ignoredApp = {
+        id: APP_ID,
+        reason: 'type: DLC'
+      }
+
+      nonGameApp[APP_ID].data.type = 'DLC'
+      appDetailsMock.mockReturnValue(nonGameApp)
       ignoredAppMapperGetMock.mockReturnValue(ignoredApp)
       const updater = new Updater()
 
