@@ -1,72 +1,131 @@
 import Logger from '@App/modules/common/Logger'
 
-const message = 'Test message.'
-const fullMessage = 'Full message.'
-const tags = 'tags'
+const logLevels = ['ERROR', 'WARNING', 'LOG', 'INFO', 'DEBUG']
+
+const message = 'message'
+
+console.error = jest.fn()
+console.warn = jest.fn()
+console.log = jest.fn()
+console.info = jest.fn()
+console.debug = jest.fn()
 
 describe('Logger', () => {
-  it('logs errors', () => {
-    process.env.LOG_LEVEL = 'ERROR'
-    const log = new Logger()
-    console.error = jest.fn()
+  describe('.error()', () => {
+    it('always logs an error', () => {
+      for (const level of logLevels) {
+        process.env.LOG_LEVEL = level
+        const logger = new Logger()
 
-    log.error(message, fullMessage, tags)
-    log.error(message)
-
-    expect(console.error).toBeCalledWith(message, fullMessage, tags)
-    expect(console.error).toBeCalledWith(message, null, null)
-    expect(console.error).toBeCalledTimes(2)
+        logger.error(message)
+        expect(console.error).toBeCalledWith(message, '', '')
+      }
+    })
   })
 
-  it('logs warnings', () => {
-    process.env.LOG_LEVEL = 'WARNING'
-    const log = new Logger()
-    console.warn = jest.fn()
+  describe('.warn()', () => {
+    it('logs warning if log level is greater than ERROR', () => {
+      const index = logLevels.indexOf('WARNING')
+      for (let i = index; i < logLevels.length; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
 
-    log.warn(message, fullMessage, tags)
-    log.warn(message)
+        logger.warn(message)
+        expect(console.warn).toBeCalledWith(message, '', '')
+      }
+    })
 
-    expect(console.warn).toBeCalledWith(message, fullMessage, tags)
-    expect(console.warn).toBeCalledWith(message, null, null)
-    expect(console.warn).toBeCalledTimes(2)
+    it('does not log warning if log level is less than WARNING', () => {
+      process.env.LOG_LEVEL = 'ERROR'
+      const logger = new Logger()
+
+      logger.warn(message)
+      expect(console.warn).toBeCalledTimes(0)
+    })
   })
 
-  it('logs logs', () => {
-    process.env.LOG_LEVEL = 'LOG'
-    const log = new Logger()
-    console.log = jest.fn()
+  describe('.log()', () => {
+    it('logs log if log level is greater than WARNING', () => {
+      const index = logLevels.indexOf('LOG')
+      for (let i = index; i < logLevels.length; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
 
-    log.log(message, fullMessage, tags)
-    log.log(message)
+        logger.log(message)
+        expect(console.log).toBeCalledWith(message, '', '')
+      }
+    })
 
-    expect(console.log).toBeCalledWith(message, fullMessage, tags)
-    expect(console.log).toBeCalledWith(message, null, null)
-    expect(console.log).toBeCalledTimes(2)
+    it('does not log log if log level is less than LOG', () => {
+      const index = logLevels.indexOf('WARNING')
+      for (let i = 0; i <= index; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
+
+        logger.log(message)
+        expect(console.log).toBeCalledTimes(0)
+      }
+    })
   })
 
-  it('logs info', () => {
-    process.env.LOG_LEVEL = 'INFO'
-    const log = new Logger()
-    console.info = jest.fn()
+  describe('.info()', () => {
+    it('logs info if log level is greater than LOG', () => {
+      const index = logLevels.indexOf('INFO')
+      for (let i = index; i < logLevels.length; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
 
-    log.info(message, fullMessage, tags)
-    log.info(message)
+        logger.info(message)
+        expect(console.info).toBeCalledWith(message, '', '')
+      }
+    })
 
-    expect(console.info).toBeCalledWith(message, fullMessage, tags)
-    expect(console.info).toBeCalledWith(message, null, null)
-    expect(console.info).toBeCalledTimes(2)
+    it('does not log info if log level is less than INFO', () => {
+      const index = logLevels.indexOf('LOG')
+      for (let i = 0; i <= index; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
+
+        logger.info(message)
+        expect(console.info).toBeCalledTimes(0)
+      }
+    })
   })
 
-  it('logs debug', () => {
-    process.env.LOG_LEVEL = 'DEBUG'
-    const log = new Logger()
-    console.debug = jest.fn()
+  describe('.debug()', () => {
+    it('logs debug if log level is greater than INFO', () => {
+      const index = logLevels.indexOf('DEBUG')
+      for (let i = index; i < logLevels.length; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
 
-    log.debug(message, fullMessage, tags)
-    log.debug(message)
+        logger.debug(message)
+        expect(console.debug).toBeCalledWith(message, '', '')
+      }
+    })
 
-    expect(console.debug).toBeCalledWith(message, fullMessage, tags)
-    expect(console.debug).toBeCalledWith(message, null, null)
-    expect(console.debug).toBeCalledTimes(2)
+    it('does not log debug if log level is less than DEBUG', () => {
+      const index = logLevels.indexOf('INFO')
+      for (let i = 0; i <= index; i++) {
+        process.env.LOG_LEVEL = logLevels[i]
+        const logger = new Logger()
+
+        logger.debug(message)
+        expect(console.debug).toBeCalledTimes(0)
+      }
+    })
+  })
+
+  describe('Log level initialisation', () => {
+    it('sets the log level to WARNING if no logLevel env variable is set', () => {
+      process.env.LOG_LEVEL = ''
+      const logger = new Logger()
+
+      logger.warn(message)
+      logger.log(message)
+
+      expect(console.warn).toBeCalledTimes(1)
+      expect(console.log).toBeCalledTimes(0)
+    })
   })
 })
