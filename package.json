@@ -15,8 +15,9 @@
   },
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint .",
-    "lint-and-fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/config": "0.0.36",

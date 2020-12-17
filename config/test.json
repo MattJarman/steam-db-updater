@@ -8,6 +8,6 @@
   },
   "updater": {
     "rate": 0,
-    "rateIncrease": 0
+    "rateIncrease": 2
   }
 }

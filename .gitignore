@@ -131,4 +131,7 @@ $RECYCLE.BIN/
 # Serverless build
 .build/
 
+# Jest
+coverage/
+
 # End of https://www.gitignore.io/api/osx,node,linux,windows

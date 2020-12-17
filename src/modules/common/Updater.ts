@@ -9,6 +9,7 @@ import { NO_CONTENT, TOO_MANY_REQUESTS } from './HttpResponses'
 import AppMapper from '../mappers/AppMapper'
 import SteamApp from '../../interfaces/steam/store/SteamApp'
 import { AxiosError } from 'axios'
+import Helper from './Helper'
 
 export default class Updater {
   private readonly appSource: AppSource
@@ -35,7 +36,7 @@ export default class Updater {
     const apps = await this.getApps()
     for (const app of apps) {
       // Add a sleep so we don't hit the rate limit
-      await this.sleep(this.rate)
+      await Helper.sleep(this.rate)
 
       try {
         const response = await this.storeClient.getAppDetails(app)
@@ -152,11 +153,5 @@ export default class Updater {
 
   private resetRate() {
     this.rate = this.defaultRate
-  }
-
-  private async sleep(ms: number): Promise<void> {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms)
-    })
   }
 }
