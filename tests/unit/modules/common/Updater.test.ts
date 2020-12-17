@@ -126,6 +126,7 @@ describe('Updater', () => {
       }
 
       noContentApp[APP_ID].data = {}
+      noContentApp[APP_ID].success = false
       appDetailsMock.mockReturnValue(noContentApp)
       ignoredAppMapperGetMock.mockReturnValue(ignoredApp)
       const updater = new Updater()
