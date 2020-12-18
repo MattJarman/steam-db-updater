@@ -2,7 +2,7 @@
   "name": "steam-db-updater-infrastructure",
   "version": "0.1.0",
   "bin": {
-    "infrastructure": "bin/infrastructure.js"
+    "infrastructure": "bin/steam-db-updater.js"
   },
   "scripts": {
     "build": "tsc",
