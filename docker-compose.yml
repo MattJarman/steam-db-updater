@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  node:
+  sdbu_node:
     image: node:12-alpine
     volumes:
-      - .:/home/node/app
+      - ./app:/home/node/app
       - node_modules:/home/node/app/node_modules
     networks:
-      - app-network
-  db:
+      - sdbu-network
+  sdbu_db:
     image: mongo:4-xenial
     ports:
       - '27017:27017'
@@ -19,10 +19,10 @@ services:
     volumes:
       - dbdata:/data/db
     networks:
-      - app-network
+      - sdbu-network
 
 networks:
-  app-network:
+  sdbu-network:
     driver: bridge
 
 volumes:
