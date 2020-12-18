@@ -7,10 +7,12 @@ import Config from 'config'
 import IgnoredAppMapper from '../mappers/IgnoredAppMapper'
 import { NO_CONTENT, TOO_MANY_REQUESTS } from './HttpResponses'
 import AppMapper from '../mappers/AppMapper'
-import SteamApp from '../../interfaces/steam/store/SteamAppInterface'
+import SteamApp from '../../interfaces/steam/store/SteamApp'
 import { AxiosError } from 'axios'
+import Helper from './Helper'
 
 export default class Updater {
+  private readonly GAME_TYPE = 'game'
   private readonly appSource: AppSource
   private readonly ignoredAppSource: IgnoredAppSource
   private readonly apiClient: SteamAPIClient
@@ -35,7 +37,7 @@ export default class Updater {
     const apps = await this.getApps()
     for (const app of apps) {
       // Add a sleep so we don't hit the rate limit
-      await this.sleep(this.rate)
+      await Helper.sleep(this.rate)
 
       try {
         const response = await this.storeClient.getAppDetails(app)
@@ -46,7 +48,18 @@ export default class Updater {
           continue
         }
 
-        await this.handleSuccess(response[app].data)
+        const data = response[app].data
+        if (app !== data.steam_appid) {
+          await this.handleAppIdMismatch(app, data.steam_appid)
+          continue
+        }
+
+        if (data.type !== this.GAME_TYPE) {
+          await this.handleNonGame(data)
+          continue
+        }
+
+        await this.handleSuccess(data)
 
         // Reset rate for next request if we're using the increase rate
         if (this.rate !== this.defaultRate) {
@@ -74,23 +87,12 @@ export default class Updater {
   }
 
   private async handleSuccess(app: SteamApp): Promise<void> {
-    // We don't care about anything that isn't a game, so add it to the list of ignored apps
-    if (app.type !== 'game') {
-      this.log.info(
-        `${app.name} (${app.steam_appid}) is not a game - ignoring.`
-      )
-
-      await this.handleIgnore(app.steam_appid, `type: '${app.type}'`)
-      return
-    }
-
     const mappedApp = new AppMapper(app).get()
 
-    await this.appSource.insert(mappedApp).then(() => {
-      this.log.info(
-        `${mappedApp.name} (${app.steam_appid}) has been inserted into the database.`
-      )
-    })
+    await this.appSource.insert(mappedApp)
+    this.log.info(
+      `${mappedApp.name} (${app.steam_appid}) has been inserted into the database.`
+    )
   }
 
   private async handleNoContent(
@@ -103,8 +105,28 @@ export default class Updater {
     await this.handleIgnore(appId, reason)
   }
 
+  private async handleAppIdMismatch(
+    expectedAppId: number,
+    actualAppId: number
+  ): Promise<void> {
+    this.log.error(
+      `App ID mismatch. (Expected: ${expectedAppId}, Actual: ${actualAppId})`
+    )
+
+    const reason = 'App ID mismatch'
+    await this.handleIgnore(expectedAppId, reason)
+  }
+
+  private async handleNonGame(app: SteamApp): Promise<void> {
+    this.log.info(`${app.name} (${app.steam_appid}) is not a game - ignoring.`)
+    const reason = `type: '${app.type}'`
+
+    await this.handleIgnore(app.steam_appid, reason)
+  }
+
   private async handleIgnore(appId: number, reason: string): Promise<void> {
     const ignoredApp = new IgnoredAppMapper(appId, reason).get()
+    console.log(ignoredApp)
     await this.ignoredAppSource.insert(ignoredApp)
   }
 
@@ -135,11 +157,5 @@ export default class Updater {
 
   private resetRate() {
     this.rate = this.defaultRate
-  }
-
-  private async sleep(ms: number): Promise<void> {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms)
-    })
   }
 }

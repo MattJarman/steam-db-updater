@@ -1,6 +1,6 @@
 import HttpClient from './HttpClient'
 import Config from 'config'
-import SteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponseInterface'
+import SteamAppDetailsResponse from '../../interfaces/steam/store/SteamAppDetailsResponse'
 
 class SteamStoreClient extends HttpClient {
   public constructor() {

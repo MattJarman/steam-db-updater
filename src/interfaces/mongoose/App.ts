@@ -8,7 +8,7 @@ import {
   Requirements,
   Screenshot,
   Tag
-} from '../steam/store/SteamAppInterface'
+} from '../steam/store/SteamApp'
 
 export default interface App extends Document {
   _id: number

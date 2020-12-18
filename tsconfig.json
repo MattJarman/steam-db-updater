@@ -14,7 +14,8 @@
       "jest"
     ],
     "paths": {
-      "@App/*": ["src/*"]
+      "@App/*": ["src/*"],
+      "@Test/*": ["tests/*"]
     }
   }
 }
