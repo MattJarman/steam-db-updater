@@ -126,7 +126,6 @@ export default class Updater {
 
   private async handleIgnore(appId: number, reason: string): Promise<void> {
     const ignoredApp = new IgnoredAppMapper(appId, reason).get()
-    console.log(ignoredApp)
     await this.ignoredAppSource.insert(ignoredApp)
   }
 
