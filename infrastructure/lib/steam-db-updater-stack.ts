@@ -1,8 +1,12 @@
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
-import { Stack, StackProps, Construct } from '@aws-cdk/core';
-import { AssetCode, Function, Runtime } from '@aws-cdk/aws-lambda'
-import { Duration } from '@aws-cdk/core'
+import { Stack, StackProps, Construct, Duration } from '@aws-cdk/core'
+import {
+  AssetCode,
+  Function as AWSLambdaFunction,
+  Runtime
+} from '@aws-cdk/aws-lambda'
+
 import Config from 'config'
 
 interface DatabaseConfig {
@@ -18,19 +22,19 @@ interface SteamDBUpdaterStackProps extends StackProps {
 }
 
 export default class SteamDBUpdaterStack extends Stack {
-  private readonly lambdaFunction: Function
+  private readonly lambdaFunction: AWSLambdaFunction
   private readonly scheduleHours: number
   private readonly lambdaTimeoutSeconds: number
   private readonly memorySize: number
 
   constructor(scope: Construct, id: string, props: SteamDBUpdaterStackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
     this.scheduleHours = Config.get('lambda.scheduleHours')
     this.lambdaTimeoutSeconds = Config.get('lambda.timeoutSeconds')
     this.memorySize = Config.get('lambda.memorySize')
 
-    this.lambdaFunction = new Function(this, 'SteamDBUpdater', {
+    this.lambdaFunction = new AWSLambdaFunction(this, 'SteamDBUpdater', {
       code: new AssetCode('../app', {
         exclude: [
           '*.ts',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentDefinition, Model } from 'mongoose'
 import DB from '../modules/common/DB'
 import IgnoredAppModel from '../models/IgnoredAppModel'

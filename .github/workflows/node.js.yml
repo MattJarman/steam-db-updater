@@ -20,28 +20,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Cache node_modules
       uses: actions/cache@v2
       with:
         path: ~/.npm
         key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.OS }}-npm-cache- 
-      
+          ${{ runner.OS }}-npm-cache-
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install Dependencies 
-      run: | 
+    - name: Install Dependencies
+      run: |
         (cd app && npm ci)
         (cd infrastructure && npm ci)
-        
+
     - name: Lint
-      run: (cd app && npm run lint)
-      
+      run: |
+        (cd app && npm run lint)
+        (cd infrastructure && npm run lint)
+
     - name: Test
       run: |
         (cd app && npm run test:coverage)
