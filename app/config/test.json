@@ -7,7 +7,7 @@
     }
   },
   "updater": {
-    "rate": 0,
-    "rateIncrease": 2
+    "toProcess": 3,
+    "rate": 0
   }
 }
