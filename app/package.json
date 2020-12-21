@@ -6,19 +6,19 @@
   "repository": "https://github.com/MattJarman/steam-db-updater",
   "author": "Matthew Jarman",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
+  },
   "dependencies": {
     "axios": "^0.18.1",
     "config": "^3.3.2",
     "dotenv": "^8.2.0",
     "mongoose": "^5.10.15",
     "path": "^0.12.7"
-  },
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/config": "0.0.36",
