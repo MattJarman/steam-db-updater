@@ -21,21 +21,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Cache App Dependencies
+    - name: Cache dependencies
       uses: actions/cache@v2
       with:
-        path: app/node_modules
-        key: app-${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.npm
+        key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          app-${{ runner.OS }}-npm-cache-
-
-    - name: Cache Infrastructure Dependencies
-      uses: actions/cache@v2
-      with:
-        path: app/node_modules
-        key: inf-${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          inf-${{ runner.OS }}-npm-cache-
+          ${{ runner.OS }}-npm-cache-
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
