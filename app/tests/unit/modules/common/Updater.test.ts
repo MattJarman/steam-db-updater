@@ -1,7 +1,5 @@
 import Updater from '@App/modules/common/Updater'
 import * as fs from 'fs'
-import { TOO_MANY_REQUESTS } from '@App/modules/common/HttpResponses'
-import Helper from '@App/modules/common/Helper'
 import Config from 'config'
 import clearAllMocks = jest.clearAllMocks
 
@@ -170,7 +168,7 @@ describe('Updater', () => {
       expect(ignoredAppInsertMock).toHaveBeenCalledWith(ignoredApp)
     })
 
-    it('it increases the time between requests on a TOO_MANY_REQUESTS error and resets it immediately', async () => {
+    it('truncates the apps length to the toProcess value if it exceeds it', async () => {
       appListMock.mockReturnValue({
         applist: {
           apps: [
@@ -185,32 +183,25 @@ describe('Updater', () => {
             {
               appid: APP_ID,
               name: 'Portal 3'
+            },
+            {
+              appid: APP_ID,
+              name: 'Portal 4'
             }
           ]
         }
       })
 
-      const error = {
-        response: {
-          data: {},
-          status: TOO_MANY_REQUESTS,
-          statusText: 'Too Many Requests',
-          headers: {},
-          config: {}
-        }
-      }
-
-      appDetailsMock.mockRejectedValueOnce(error).mockReturnValue(app)
+      appDetailsMock.mockReturnValue(app)
       appMapperGetMock.mockReturnValue(mappedApp)
 
+      const toProcess: number = Config.get('updater.toProcess')
       const updater = new Updater()
+
       await updater.run()
-      const rate = Config.get('updater.rate')
-      const rateIncrease = Config.get('updater.rateIncrease')
-      expect(Helper.sleep).toHaveBeenNthCalledWith(1, rate)
-      expect(Helper.sleep).toHaveBeenNthCalledWith(2, rateIncrease)
-      expect(Helper.sleep).toHaveBeenNthCalledWith(3, rate)
-      expect(Helper.sleep).toHaveBeenCalledTimes(3)
+      expect(appInsertMock).toBeCalledTimes(toProcess)
+
+      // TODO: Finish the damn test
     })
   })
 })

@@ -1,0 +1,7 @@
+{
+  "lambda": {
+    "timeoutSeconds": 300,
+    "scheduleHours": 1,
+    "memorySize": 512
+  }
+}

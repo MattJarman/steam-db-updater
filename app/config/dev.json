@@ -1,13 +1,9 @@
 {
   "mongodb": {
     "prefix": "mongodb",
-    "host": "127.0.0.1:27017",
+    "host": "sdbu_db:27017",
     "options": {
       "authSource": "admin"
     }
-  },
-  "updater": {
-    "rate": 0,
-    "rateIncrease": 2
   }
 }

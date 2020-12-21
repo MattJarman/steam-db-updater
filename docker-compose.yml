@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  node:
+  sdbu_node:
     image: node:12-alpine
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
+      - ./:/var/www
     networks:
-      - app-network
-  db:
+      - sdbu-network
+
+  sdbu_db:
     image: mongo:4-xenial
     ports:
       - '27017:27017'
@@ -16,15 +16,10 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=admin
-    volumes:
-      - dbdata:/data/db
     networks:
-      - app-network
+      - sdbu-network
 
 networks:
-  app-network:
+  sdbu-network:
+    name: sdbu-network
     driver: bridge
-
-volumes:
-  dbdata:
-  node_modules:

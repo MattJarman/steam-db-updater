@@ -5,10 +5,9 @@ import SteamStoreClient from './SteamStoreClient'
 import Logger from './Logger'
 import Config from 'config'
 import IgnoredAppMapper from '../mappers/IgnoredAppMapper'
-import { NO_CONTENT, TOO_MANY_REQUESTS } from './HttpResponses'
+import { NO_CONTENT } from './HttpResponses'
 import AppMapper from '../mappers/AppMapper'
 import SteamApp from '../../interfaces/steam/store/SteamApp'
-import { AxiosError } from 'axios'
 import Helper from './Helper'
 
 export default class Updater {
@@ -18,9 +17,8 @@ export default class Updater {
   private readonly apiClient: SteamAPIClient
   private readonly storeClient: SteamStoreClient
   private readonly log: Logger
-  private readonly increasedRate: number
-  private readonly defaultRate: number
-  private rate: number
+  private readonly toProcess: number
+  private readonly rate: number
 
   public constructor() {
     this.appSource = new AppSource()
@@ -28,9 +26,8 @@ export default class Updater {
     this.apiClient = new SteamAPIClient()
     this.storeClient = new SteamStoreClient()
     this.log = new Logger()
-    this.increasedRate = Config.get('updater.rateIncrease')
-    this.defaultRate = Config.get('updater.rate')
-    this.rate = this.defaultRate
+    this.toProcess = Config.get('updater.toProcess')
+    this.rate = Config.get('updater.rate')
   }
 
   public async run(): Promise<void> {
@@ -60,28 +57,8 @@ export default class Updater {
         }
 
         await this.handleSuccess(data)
-
-        // Reset rate for next request if we're using the increase rate
-        if (this.rate !== this.defaultRate) {
-          this.log.info(`Reverting rate limit to default.`)
-          this.resetRate()
-        }
       } catch (error) {
-        this.handlerError(app, error)
-      }
-    }
-  }
-
-  private handlerError(app: number, error: AxiosError): void {
-    if (error.response) {
-      if (error.response.status === TOO_MANY_REQUESTS) {
         this.log.warn(`Error inserting app ${app}.`, error.response.statusText)
-        this.log.warn(
-          `Increasing rate limit for next request to ${
-            this.increasedRate / 1000
-          } seconds.`
-        )
-        this.increaseRate()
       }
     }
   }
@@ -126,7 +103,6 @@ export default class Updater {
 
   private async handleIgnore(appId: number, reason: string): Promise<void> {
     const ignoredApp = new IgnoredAppMapper(appId, reason).get()
-    console.log(ignoredApp)
     await this.ignoredAppSource.insert(ignoredApp)
   }
 
@@ -148,14 +124,11 @@ export default class Updater {
 
     this.log.info(`${apps.length} to insert.`)
 
+    if (apps.length > this.toProcess) {
+      this.log.info(`Truncating amount of apps to ${this.toProcess}.`)
+      return apps.slice(0, this.toProcess)
+    }
+
     return apps
-  }
-
-  private increaseRate() {
-    this.rate = this.increasedRate
-  }
-
-  private resetRate() {
-    this.rate = this.defaultRate
   }
 }

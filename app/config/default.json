@@ -1,7 +1,7 @@
 {
   "updater": {
-    "rate": 800,
-    "rateIncrease": 60000
+    "toProcess": 30,
+    "rate": 800
   },
   "mongodb": {
     "prefix": "mongodb+srv",
