@@ -16,7 +16,6 @@
   "dependencies": {
     "axios": "^0.18.1",
     "config": "^3.3.2",
-    "dotenv": "^8.2.0",
     "mongoose": "^5.10.15",
     "path": "^0.12.7"
   },
@@ -44,7 +43,6 @@
     "prettier": "^2.1.2",
     "prettier-config-standard": "^1.0.1",
     "serverless-dotenv-plugin": "^3.1.0",
-    "serverless-plugin-typescript": "^1.1.9",
     "ts-jest": "^26.4.4",
     "typescript": "^3.9.7"
   }
