@@ -86,15 +86,6 @@ jest.mock('@App/modules/mappers/IgnoredAppMapper', () => {
   })
 })
 
-/**
- * Scenarios:
- *       - it inserts an app into the db if there were no errors ✔️
- *       - it ignores an app if Steam app details has no content ✔
- *       - it ignores an app if it isn't a game ✔
- *       - ignores an app if the id found in the app details does not match the requested id ✔
- *       - it increases the time between requests if we receive a TOO_MANY_REQUESTS error code ✔
- */
-
 describe('Updater', () => {
   beforeAll(() => {
     appListMock.mockReturnValue(appList)
@@ -200,8 +191,6 @@ describe('Updater', () => {
 
       await updater.run()
       expect(appInsertMock).toBeCalledTimes(toProcess)
-
-      // TODO: Finish the damn test
     })
   })
 })
