@@ -23,14 +23,14 @@ interface SteamDBUpdaterStackProps extends StackProps {
 
 export default class SteamDBUpdaterStack extends Stack {
   private readonly lambdaFunction: AWSLambdaFunction
-  private readonly scheduleHours: number
+  private readonly scheduleMinutes: number
   private readonly lambdaTimeoutSeconds: number
   private readonly memorySize: number
 
   constructor(scope: Construct, id: string, props: SteamDBUpdaterStackProps) {
     super(scope, id, props)
 
-    this.scheduleHours = Config.get('lambda.scheduleHours')
+    this.scheduleMinutes = Config.get('lambda.scheduleMinutes')
     this.lambdaTimeoutSeconds = Config.get('lambda.timeoutSeconds')
     this.memorySize = Config.get('lambda.memorySize')
 
@@ -60,7 +60,7 @@ export default class SteamDBUpdaterStack extends Stack {
     })
 
     const rule: Rule = new Rule(this, 'Rule', {
-      schedule: Schedule.rate(Duration.hours(this.scheduleHours))
+      schedule: Schedule.rate(Duration.minutes(this.scheduleMinutes))
     })
 
     rule.addTarget(new LambdaFunction(this.lambdaFunction))

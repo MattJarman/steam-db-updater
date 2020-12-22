@@ -10,7 +10,8 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "cdk deploy --force --require-approval never"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.79.0",
