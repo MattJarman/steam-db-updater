@@ -7,7 +7,8 @@ ORANGE=$'\033[1;33m'
 
 DEFAULT_REGION="eu-west-1"
 
-ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/../"
+FULL_PATH=$(realpath "$0")
+ROOT_DIR="$(dirname "$FULL_PATH")/.."
 
 ENVIRONMENT=""
 ACCOUNT_NUMBER=""
