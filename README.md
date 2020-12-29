@@ -58,7 +58,7 @@ $ ./scripts/run.sh -w infrastructure boostrap
 ### Deployment
 
 To deploy the lambda function, you can use the `deploy.sh` script located in the `scripts` directory. If you're planning
-on using this script on your local machine (*recommended if you have AWS profiles set up*), then you'll 
+on using this script on your local machine (*recommended if you have AWS profiles set up*), then you'll need
 [Node.js](https://nodejs.org/en/) installed.
 
 The deploy script accepts the following flags:
