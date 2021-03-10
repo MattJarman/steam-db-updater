@@ -2,7 +2,7 @@ import HttpClient from './HttpClient'
 import Config from 'config'
 import SteamAppListResponse from '../../interfaces/steam/api/SteamAppListResponseInterface'
 
-class SteamAPIClient extends HttpClient {
+export default class SteamAPIClient extends HttpClient {
   public constructor() {
     super(Config.get('steam.api.baseUrl'))
   }
@@ -12,5 +12,3 @@ class SteamAPIClient extends HttpClient {
     return this.instance.get<SteamAppListResponse>(route)
   }
 }
-
-export default SteamAPIClient
