@@ -74,7 +74,7 @@ The deploy script accepts the following flags:
 following*:
 
 ```
-$ ./scripts/run.sh -w infrastructure boostrap
+$ ./scripts/run.sh -w infrastructure bootstrap
 ```
 
 #### Deploy from local machine
