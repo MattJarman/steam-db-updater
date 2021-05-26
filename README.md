@@ -10,7 +10,7 @@ and [infrastructure](https://github.com/MattJarman/steam-db-updater/tree/master/
 
 The app part of the project contains the lambda function code, written in Typescript.
 
-The infrastructure part of the project defines the resources needed for the lambda function to run, and  was written 
+The infrastructure part of the project defines the resources needed for the lambda function to run, and was written 
 using the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) Framework
 and Typescript.
 
