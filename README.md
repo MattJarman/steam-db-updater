@@ -45,7 +45,7 @@ Here are all the NPM commands you can run:
 |                    | `bootstrap`     | Provisions resources for deployment.                                  |
 |                    | `deploy`        | Deploy the stack using CDK.                                           |
 
-You can run these commands in docker-compose by running the `run.sh` script found in the `scripts` directory. By default, 
+You can run these commands through docker-compose by running the `run.sh` script found in the `scripts` directory. By default, 
 this script will only run commands in the app directory. If you wish to run commands in the infrastructure directory,
 then you can pass the `-w`, `-working-dir` flag with the value `infrastructure`. 
 
